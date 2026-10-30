@@ -12,3 +12,6 @@ description = "AI agent that uses an LLM and RAG to check EMG signal quality and
 dev = [
     "pytest>=9.2.0",
 ]
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
