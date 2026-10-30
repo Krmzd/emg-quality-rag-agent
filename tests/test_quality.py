@@ -17,3 +17,10 @@ def test_clipped_signal_is_detected():
     result = detect_clipping(clipped_signal)
 
     assert result["is_clipped"] is True
+
+def test_flat_signal_is_not_clipped():
+    signal = np.zeros(1000)
+
+    result = detect_clipping(signal)
+
+    assert result["is_clipped"] is False

@@ -21,6 +21,12 @@ def detect_clipping(signal, threshold = 0.01, tolerance = 0.001):
     min_signal = np.min(signal)
     max_signal = np.max(signal)
     signal_range =  max_signal - min_signal
+    if signal_range == 0:
+        return {
+            "is_clipped": False,
+            "clipped_fraction": 0.0,
+            "threshold": threshold,
+        }
     tolerance_distance = tolerance * signal_range
     near_max = signal >= max_signal - tolerance_distance
     near_min = signal <= min_signal + tolerance_distance
