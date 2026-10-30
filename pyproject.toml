@@ -1,0 +1,6 @@
+[project]
+name = "emg-quality-rag-agent"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = []
+description = "AI agent that uses an LLM and RAG to check EMG signal quality and answer EMG data-collection questions with cited sources."
