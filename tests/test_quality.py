@@ -1,5 +1,5 @@
 import numpy as np
-from emg_agent.quality import detect_clipping, detect_flat_channel, detect_line_noise
+from emg_agent.quality import detect_clipping, detect_flat_channel, detect_line_noise, detect_baseline_drift
 
 # detect_clipping function tests
 def test_clean_signal_is_not_clipping():
@@ -81,3 +81,37 @@ def test_flat_signal_has_no_line_noise():
     result = detect_line_noise(signal, fs=fs)
 
     assert result["has_line_noise"] is False
+
+
+# baseline drift tests
+def test_signal_with_drift_is_detected():
+    fs = 2000
+    rng = np.random.default_rng(seed=0)
+    signal = rng.normal(loc=0.0, scale=1.0, size=10000)
+    t = np.arange(10000) / fs
+
+    drift = 3.0 * np.sin(2 * np.pi * 1 * t)
+    drifting_signal = signal + drift
+
+    result = detect_baseline_drift(drifting_signal, fs=fs)
+
+    assert result["has_drift"] is True
+
+
+def test_clean_signal_has_no_drift():
+    fs = 2000
+    rng = np.random.default_rng(seed=0)
+    signal = rng.normal(loc=0.0, scale=1.0, size=10000)
+
+    result = detect_baseline_drift(signal, fs=fs)
+
+    assert result["has_drift"] is False
+
+
+def test_flat_signal_has_no_drift():
+    fs = 2000
+    signal = np.zeros(10000)
+
+    result = detect_baseline_drift(signal, fs=fs)
+
+    assert result["has_drift"] is False

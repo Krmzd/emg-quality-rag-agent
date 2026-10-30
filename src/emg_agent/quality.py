@@ -108,3 +108,46 @@ def detect_line_noise(signal, fs, line_freq = 60, threshold = 0.1):
         "line_noise_ratio": float(line_noise_ratio),
         "threshold": threshold,
     }
+
+def detect_baseline_drift(signal, fs, cutoff=10, threshold=0.2):
+    """
+    Detect baseline drift (slow low-frequency movement) in one EMG channel.
+
+    Parameters:
+        signal: one EMG channel as a 1-D NumPy array.
+        fs: sampling rate in Hz (samples per second), for example 2000.
+        cutoff: frequencies at or below this value (in Hz) count as drift.
+            Default 10 Hz.
+        threshold: the limit for reporting drift. A fraction between 0 and 1.
+            If the fraction of the signal's power at or below the cutoff is
+            above it, drift is reported. Default 0.2 (20%).
+
+    Returns:
+        A dictionary with:
+            has_drift: True if the drift ratio is above the threshold.
+            drift_ratio: fraction of total power at or below the cutoff (0 to 1).
+            threshold: the threshold that was used.
+    """
+    freqs, psd = welch(signal, fs=fs, nperseg=min(len(signal), int(fs)))
+
+    total_power = np.sum(psd)
+    if total_power == 0:
+        return {
+            "has_drift": False,
+            "drift_ratio": 0.0,
+            "threshold": threshold,
+        }
+
+    low_band = freqs <= cutoff
+
+    low_power = np.sum(psd[low_band])
+
+    drift_ratio = low_power / total_power
+
+    has_drift = drift_ratio > threshold
+
+    return {
+        "has_drift": bool(has_drift),
+        "drift_ratio": float(drift_ratio),
+        "threshold": threshold,
+    }
