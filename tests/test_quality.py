@@ -1,5 +1,5 @@
 import numpy as np
-from emg_agent.quality import detect_clipping, detect_flat_channel, detect_line_noise, detect_baseline_drift
+from emg_agent.quality import detect_clipping, detect_flat_channel, detect_line_noise, detect_baseline_drift, estimate_snr
 
 # detect_clipping function tests
 def test_clean_signal_is_not_clipping():
@@ -115,3 +115,35 @@ def test_flat_signal_has_no_drift():
     result = detect_baseline_drift(signal, fs=fs)
 
     assert result["has_drift"] is False
+
+
+ # estimate_snr tests
+def test_signal_with_bursts_has_good_snr():
+    fs = 2000
+    rng = np.random.default_rng(seed=0)
+    signal = rng.normal(loc = 0.0, scale = 0.05, size = 10000)
+    signal[2000:4000] += rng.normal(loc=0.0, scale=1.0, size=2000)
+    signal[6000:8000] += rng.normal(loc=0.0, scale=1.0, size=2000)
+
+    result = estimate_snr(signal, fs=fs)
+
+    assert result["has_low_snr"] is False
+
+
+def test_noise_only_signal_has_low_snr():
+    fs = 2000
+    rng = np.random.default_rng(seed=0)
+    signal = rng.normal(loc=0.0, scale=1.0, size=10000)
+
+    result = estimate_snr(signal, fs=fs)
+
+    assert result["has_low_snr"] is True
+
+
+def test_flat_signal_has_low_snr():
+    fs = 2000
+    signal = np.zeros(10000)
+
+    result = estimate_snr(signal, fs=fs)
+
+    assert result["has_low_snr"] is True

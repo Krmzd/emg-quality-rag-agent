@@ -151,3 +151,49 @@ def detect_baseline_drift(signal, fs, cutoff=10, threshold=0.2):
         "drift_ratio": float(drift_ratio),
         "threshold": threshold,
     }
+
+def estimate_snr(signal, fs, window_ms=100, threshold_db=10):
+    """
+    Estimate the signal-to-noise ratio (SNR) of one EMG channel.
+
+    The signal is cut into short windows and the RMS of each window is
+    calculated. The quietest windows (10th percentile) estimate the noise,
+    and the most active windows (90th percentile) estimate the signal.
+
+    Parameters:
+        signal: one EMG channel as a 1-D NumPy array.
+        fs: sampling rate in Hz (samples per second), for example 2000.
+        window_ms: window length in milliseconds. Default 100 ms.
+        threshold_db: SNR below this value (in dB) is reported as low.
+            Default 10 dB.
+
+    Returns:
+        A dictionary with:
+            has_low_snr: True if the SNR is below the threshold.
+            snr_db: the estimated SNR in decibels.
+            threshold_db: the threshold that was used.
+    """
+    centered = signal - np.mean(signal)
+    window_len = int(window_ms / 1000 * fs)
+    n_windows = len(centered) // window_len
+    windows = centered[: n_windows * window_len].reshape(n_windows, window_len)
+    window_rms = np.sqrt(np.mean(windows**2, axis = 1))
+    noise_rms = np.percentile(window_rms, 10)
+    signal_rms = np.percentile(window_rms, 90)
+
+    if signal_rms == 0:
+        return {
+            "has_low_snr": True,
+            "snr_db": 0.0,
+            "threshold_db": threshold_db,
+        }
+
+    snr_db = 20 * np.log10(signal_rms / max(noise_rms, 1e-12))
+
+    has_low_snr = snr_db < threshold_db
+
+    return {
+        "has_low_snr": bool(has_low_snr),
+        "snr_db": float(snr_db),
+        "threshold_db": threshold_db,
+    }
