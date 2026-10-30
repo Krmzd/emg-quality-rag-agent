@@ -4,7 +4,7 @@ import numpy as np
 def detect_clipping(signal, threshold = 0.01, tolerance = 0.001):
     """
     This functions check the signal saturation. 
-    Take the EMG channel as an input ten based on the threshold and tolerance it retuns a dictionary
+    Take the EMG channel as an input then based on the threshold and tolerance it retuns a dictionary
     Parameters:
     signal: the 1-D Numpy array, one EMG channel
     threshold: the limit for calling a channel "clipped". It's a fraction between 0 and 1. If the fraction of clipped 
@@ -14,8 +14,8 @@ def detect_clipping(signal, threshold = 0.01, tolerance = 0.001):
     Returns:
     A dictionary with:
         is_clipped: yes or no
-        clipped_fraction: hoe much of a signal is clipped
-        threshold: th threshold that used.
+        clipped_fraction: how much of a signal is clipped
+        threshold: the threshold that used.
     """
 
     min_signal = np.min(signal)
@@ -40,4 +40,25 @@ def detect_clipping(signal, threshold = 0.01, tolerance = 0.001):
     }
 
 
-    
+def detect_flat_channel(signal, std_threshold = 1e-6):
+    """
+        This functions check the signal flat. 
+        Take the EMG channel as an input then based on the threshold and standard deviation it retuns a dictionary
+        Parameters:
+        signal: the 1-D Numpy array, one EMG channel
+        threshold: the limit for calling a channel "flat". 
+        standard deviation: 
+        Returns:
+        A dictionary with:
+            is_flat: yes or no
+            std:the channel's standard deviation
+            threshold: the threshold that used.
+        """
+    signal_std = np.std(signal)
+    is_flat = signal_std < std_threshold
+    return {
+        "is_flat": bool(is_flat),
+        "std": float(signal_std),
+        "std_threshold": std_threshold,
+
+    }
