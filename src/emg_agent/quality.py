@@ -18,6 +18,20 @@ def detect_clipping(signal, threshold = 0.01, tolerance = 0.001):
         threshold: th threshold that used.
     """
 
-    pass
+    min_signal = np.min(signal)
+    max_signal = np.max(signal)
+    signal_range =  max_signal - min_signal
+    tolerance_distance = tolerance * signal_range
+    near_max = signal >= max_signal - tolerance_distance
+    near_min = signal <= min_signal + tolerance_distance
+    clipped = near_max | near_min
+    clipped_fraction = np.mean(clipped)
+    is_clipped = clipped_fraction > threshold 
+    return {
+        "is_clipped": bool(is_clipped),
+        "clipped_fraction": float(clipped_fraction),
+        "threshold": threshold,
+    }
+
 
     
