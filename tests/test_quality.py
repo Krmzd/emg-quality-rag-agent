@@ -1,5 +1,5 @@
 import numpy as np
-from emg_agent.quality import detect_clipping, detect_flat_channel, detect_line_noise, detect_baseline_drift, estimate_snr
+from emg_agent.quality import detect_clipping, detect_flat_channel, detect_line_noise, detect_baseline_drift, estimate_snr, check_quality
 
 # detect_clipping function tests
 def test_clean_signal_is_not_clipping():
@@ -147,3 +147,25 @@ def test_flat_signal_has_low_snr():
     result = estimate_snr(signal, fs=fs)
 
     assert result["has_low_snr"] is True
+
+
+def test_check_quality_finds_problem_channel():
+    fs = 2000
+    rng = np.random.default_rng(seed=0)
+
+    good_channel = rng.normal(loc=0.0, scale=0.05, size=10000)
+    good_channel[2000:4000] += rng.normal(loc=0.0, scale=1.0, size=2000)
+    good_channel[6000:8000] += rng.normal(loc=0.0, scale=1.0, size=2000)
+
+    flat_channel = np.zeros(10000)
+
+    emg = np.column_stack([good_channel, flat_channel])
+
+    report = check_quality(emg, fs=fs)
+
+    assert report["n_samples"] == 10000
+    assert report["duration_s"] == 5.0
+    assert len(report["channels"]) == 2
+
+    assert report["channels"][0]["problems"] == []
+    assert "flat" in report["channels"][1]["problems"]

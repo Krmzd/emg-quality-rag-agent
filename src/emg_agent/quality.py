@@ -197,3 +197,64 @@ def estimate_snr(signal, fs, window_ms=100, threshold_db=10):
         "snr_db": float(snr_db),
         "threshold_db": threshold_db,
     }
+
+
+def check_quality(emg, fs):
+    """
+    Run all quality checks on every channel of an EMG recording.
+
+    Parameters:
+        emg: EMG recording as a 2-D NumPy array with shape
+            (n_samples, n_channels): one column per channel.
+        fs: sampling rate in Hz (samples per second), for example 2000.
+
+    Returns:
+        A dictionary with:
+            fs: the sampling rate.
+            n_samples: number of samples per channel.
+            duration_s: recording length in seconds.
+            channels: a list with one report per channel. Each report has
+                the results of every check and a list of problems found.
+    """
+    n_samples, n_channels = emg.shape
+
+    channel_reports = []
+    for ch in range(n_channels):
+        channel = emg[:, ch]
+
+        clipping = detect_clipping(channel)
+        flat = detect_flat_channel(channel)
+        line_noise = detect_line_noise(channel, fs=fs)
+        drift = detect_baseline_drift(channel, fs=fs)
+        snr = estimate_snr(channel, fs=fs)
+
+        problems = []
+        if clipping["is_clipped"]:
+            problems.append("clipping")
+        if flat["is_flat"]:
+            problems.append("flat")
+        if line_noise["has_line_noise"]:
+            problems.append("line_noise")
+        if drift["has_drift"]:
+            problems.append("drift")
+        if snr["has_low_snr"]:
+            problems.append("low_snr")
+
+        channel_reports.append(
+            {
+                "channel": ch,
+                "problems": problems,
+                "clipping": clipping,
+                "flat": flat,
+                "line_noise": line_noise,
+                "drift": drift,
+                "snr": snr,
+            }
+        )
+
+    return {
+        "fs": fs,
+        "n_samples": n_samples,
+        "duration_s": n_samples / fs,
+        "channels": channel_reports,
+    }
