@@ -199,7 +199,7 @@ def estimate_snr(signal, fs, window_ms=100, threshold_db=10):
     }
 
 
-def check_quality(emg, fs):
+def check_quality(emg, fs, line_freq = 60):
     """
     Run all quality checks on every channel of an EMG recording.
 
@@ -224,7 +224,7 @@ def check_quality(emg, fs):
 
         clipping = detect_clipping(channel)
         flat = detect_flat_channel(channel)
-        line_noise = detect_line_noise(channel, fs=fs)
+        line_noise = detect_line_noise(channel, fs=fs, line_freq = line_freq)
         drift = detect_baseline_drift(channel, fs=fs)
         snr = estimate_snr(channel, fs=fs)
 
