@@ -1,0 +1,36 @@
+[
+  {
+    "id": "cede_check_2024",
+    "file": "data/documents/cede_check_2024.pdf",
+    "title": "Consensus for experimental design in electromyography (CEDE) project: Checklist for reporting and critically appraising studies using EMG (CEDE-Check)",
+    "authors": "Besomi et al.",
+    "year": 2024,
+    "source": "Journal of Electromyography and Kinesiology",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "url": "https://doi.org/10.1016/j.jelekin.2024.102874"
+  },
+  {
+    "id": "dataset_readme",
+    "file": "data/documents/dataset_readme.txt",
+    "title": "EMG Physical Action Data Set: readme",
+    "authors": "Theodoridis, T.",
+    "year": 2011,
+    "source": "UCI Machine Learning Repository",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "url": "https://doi.org/10.24432/C53W49"
+  },
+  {
+    "id": "quality_tools",
+    "file": "docs/quality_tools.md",
+    "title": "EMG signal-quality checks: how they work and what they found",
+    "authors": "Karamzadeh, Z.",
+    "year": 2026,
+    "source": "emg-quality-rag-agent project documentation",
+    "license": "MIT",
+    "license_url": "https://opensource.org/licenses/MIT",
+    "url": "https://github.com/Krmzd/emg-quality-rag-agent/blob/main/docs/quality_tools.md",
+    "note": "Drafted with AI assistance, reviewed by the author."
+  }
+]
