@@ -22,6 +22,10 @@ the bug and the fix is covered by it.
 **EMG Physical Action Data Set** (UCI Machine Learning Repository),
 by Theo Theodoridis, University of Essex, UK. License: CC BY 4.0.
 
+**Citation:** Theodoridis, T. (2011). EMG Physical Action Data Set
+[Dataset]. UCI Machine Learning Repository.
+https://doi.org/10.24432/C53W49
+
 - 4 subjects, 10 normal and 10 aggressive actions each
 - 8 surface EMG channels (Delsys), about 10,000 samples per file
 - Channels: right biceps, right triceps, left biceps, left triceps,
