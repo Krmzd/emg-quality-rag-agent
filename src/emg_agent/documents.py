@@ -118,3 +118,92 @@ def load_documents(sources_path="docs/sources.json"):
                 passages.append({"source_id": source["id"], "location": s["section"], "text": s["text"]})
 
     return passages
+
+
+def split_sentences(text):
+    """
+    Split text into sentences at ".", "!" or "?" followed by a space.
+    """
+    sentences = re.split(r"(?<=[.!?])\s+", text)
+    return [s for s in sentences if s]
+
+def split_long_sentence(sentence, max_chars):
+    """
+    Split a sentence longer than max_chars into pieces of whole words.
+    A sentence that is short enough is returned unchanged, in a list.
+    """
+    if len(sentence) <= max_chars:
+        return [sentence]
+
+    pieces = []
+    current = ""
+    for word in sentence.split():
+        if current and len(current) + 1 + len(word) > max_chars:
+            pieces.append(current)
+            current = word
+        else:
+            current = f"{current} {word}" if current else word
+
+    if current:
+        pieces.append(current)
+
+    return pieces
+
+
+def split_text(text, max_chars=1000, overlap_sentences=1):
+    """
+    Group sentences into chunks of at most max_chars characters.
+
+    Parameters:
+        text: the text to split.
+        max_chars: maximum chunk length in characters. Default 1000.
+            A single sentence longer than this becomes its own chunk.
+        overlap_sentences: how many sentences from the end of one chunk
+            are repeated at the start of the next. Default 1.
+
+    Returns:
+        A list of chunk texts.
+    """
+    sentences = []
+    for s in split_sentences(text):
+        sentences.extend(split_long_sentence(s, max_chars))
+
+    chunks = []
+    current = []
+
+    for sentence in sentences:
+        if current and len(" ".join(current + [sentence])) > max_chars:
+            chunks.append(" ".join(current))
+            current = current[-overlap_sentences:] if overlap_sentences else []
+            if len(" ".join(current + [sentence])) > max_chars:
+                current = []
+        current.append(sentence)
+
+    if current:
+        chunks.append(" ".join(current))
+
+    return chunks
+
+
+def make_chunks(passages, max_chars=1000, overlap_sentences=1):
+    """
+    Split every passage into chunks, keeping its source and location.
+
+    Returns:
+        A list of dictionaries, each with:
+            chunk_id: a unique id, e.g. "cede_check_2024:p. 3:0".
+            source_id, location: copied from the passage.
+            text: the chunk text.
+    """
+    chunks = []
+    for p in passages:
+        for i, text in enumerate(split_text(p["text"], max_chars, overlap_sentences)):
+            chunks.append(
+                {
+                    "chunk_id": f"{p['source_id']}:{p['location']}:{i}",
+                    "source_id": p["source_id"],
+                    "location": p["location"],
+                    "text": text,
+                }
+            )
+    return chunks
