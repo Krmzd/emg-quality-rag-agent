@@ -5,6 +5,7 @@ requires-python = ">=3.12"
 dependencies = [
     "numpy>=2.5.4",
     "openai>=3.42.1",
+    "pypdf>=6.21.4",
     "scipy>=1.18.1",
 ]
 description = "AI agent that uses an LLM and RAG to check EMG signal quality and answer EMG data-collection questions with cited sources."
