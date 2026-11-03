@@ -1,5 +1,5 @@
 import json
-import re
+import re # finding text pattern
 from pypdf import PdfReader
 
 def clean_text(text):
