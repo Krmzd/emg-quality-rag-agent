@@ -33,3 +33,32 @@ def build_index():
         metadatas=[{"source_id": c["source_id"], "location": c["location"]} for c in chunks],
     )
     return len(chunks)
+
+
+def search(question, k=5):
+    """
+    Find the k chunks most similar in meaning to the question.
+
+    Returns:
+        A list of dictionaries (closest first), each with:
+            chunk_id, source_id, location, text, and distance
+            (smaller distance = more similar).
+    """
+    query_vector = embed_texts([question])[0]
+
+    client = chromadb.PersistentClient(path=CHROMA_PATH)
+    collection = client.get_collection(COLLECTION_NAME)
+    results = collection.query(query_embeddings=[query_vector], n_results=k)
+
+    hits = []
+    for i in range(len(results["ids"][0])):
+        hits.append(
+            {
+                "chunk_id": results["ids"][0][i],
+                "source_id": results["metadatas"][0][i]["source_id"],
+                "location": results["metadatas"][0][i]["location"],
+                "text": results["documents"][0][i],
+                "distance": results["distances"][0][i],
+            }
+        )
+    return hits
