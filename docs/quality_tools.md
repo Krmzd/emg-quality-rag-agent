@@ -2,8 +2,8 @@
 
 This document describes how the project's signal-quality checks work
 (as implemented in `src/emg_agent/quality.py`) and what they found in the
-EMG Physical Action dataset (using `scripts/check_file.py` and
-`scripts/find_peaks.py`). It does not give general EMG recording advice;
+EMG Physical Action dataset (using `scripts/check_file.py). 
+It does not give general EMG recording advice;
 for that, see the published sources listed in `docs/sources.json`.
 
 Each check runs on one EMG channel and returns a yes/no result, the
@@ -46,9 +46,7 @@ reported as having line noise if the ratio is above 10%.
 
 **Notes.** In this dataset, channels without a power-line peak still had
 line-noise ratios of a few percent, so the ratio has a baseline from the
-signal itself. `scripts/find_peaks.py` compares the power at the line
-frequency with neighbouring frequencies, which shows sharp peaks more
-directly.
+signal itself.
 
 ## Baseline drift
 

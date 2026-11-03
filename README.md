@@ -46,7 +46,6 @@ emg-quality-rag-agent/
 │   └── test_quality.py # pytest tests with synthetic signals
 ├── scripts/
 │   ├── check_file.py   # run all checks on one recording
-│   ├── find_peaks.py   # look for power-line peaks (used to verify fs)
 │   └── README.md       # how to use the scripts
 ├── data/               # downloaded dataset (ignored by Git)
 ├── pyproject.toml      # project settings and dependencies
