@@ -17,6 +17,31 @@ bursts). They include edge cases, for example a flat channel, which
 originally made `detect_clipping` report 100% clipping; the test found
 the bug and the fix is covered by it.
 
+## Answers with citations (RAG)
+
+Ask a question in plain language. The system finds the most relevant
+pieces of the project's documents and asks an LLM to answer **only from
+those pieces**, citing each one by number.
+
+```
+question → search (Chroma) → 5 closest chunks → gpt-5-mini → answer with [1], [2] + source list
+```
+
+- **Documents:** the dataset readme, the CEDE-Check reporting checklist,
+  and `docs/quality_tools.md` (listed in `docs/sources.json`).
+- **Chunking:** PDF by page, Markdown by section, then whole sentences
+  grouped into chunks of up to 1,000 characters with one sentence of overlap.
+- **Embeddings and answers:** Azure OpenAI (`text-embedding-3-small`, `gpt-5-mini`).
+- **Rules for the model:** answer only from the sources, cite every
+  statement, say so when the sources don't answer, never invent numbers,
+  never give medical advice.
+
+Example:
+
+```bash
+python scripts/ask.py "What should be reported about electrode placement?"
+```
+
 ## Dataset
 
 **EMG Physical Action Data Set** (UCI Machine Learning Repository),
@@ -34,31 +59,37 @@ https://doi.org/10.24432/C53W49
 - Subject 2's data was **not filtered** (according to the dataset
   readme), so it is noisier than subjects 1, 3 and 4
 
+  ## Document sources
+
+- Besomi et al. (2024). Consensus for experimental design in
+  electromyography (CEDE) project: Checklist for reporting and critically
+  appraising studies using EMG (CEDE-Check). *Journal of Electromyography
+  and Kinesiology*. https://doi.org/10.1016/j.jelekin.2024.102874
+  (License: CC BY 4.0). Text is split into chunks for search.
+
 
 ## Project structure
-
 ```
 emg-quality-rag-agent/
 ├── src/emg_agent/
-│   ├── quality.py      # the five quality checks + check_quality
-│   └── data.py         # dataset loader and dataset settings (FS, LINE_FREQ)
-├── tests/
-│   └── test_quality.py # pytest tests with synthetic signals
+│   ├── quality.py        # the five quality checks + check_quality
+│   ├── data.py           # EMG dataset loader and settings (FS, LINE_FREQ)
+│   ├── documents.py      # load documents and cut them into chunks
+│   ├── llm.py            # connection to Azure OpenAI, embeddings
+│   ├── vector_store.py   # store chunks in Chroma, search them
+│   └── answer.py         # answer a question with citations
 ├── scripts/
-│   ├── check_file.py   # run all checks on one recording
-│   └── README.md       # how to use the scripts
-├── data/               # downloaded dataset (ignored by Git)
-├── pyproject.toml      # project settings and dependencies
-└── uv.lock             # exact versions of all dependencies
-````
-````
-## Setup
-
-Requires [uv](https://docs.astral.sh/uv/). The project uses Python 3.12.
-
-```bash
-uv sync
-source .venv/bin/activate
+│   ├── check_file.py     # run all quality checks on one recording
+│   ├── build_index.py    # build the search index
+│   ├── search.py         # show the 5 closest chunks for a question
+│   └── ask.py            # answer a question with citations
+├── tests/                # pytest tests (no Azure calls needed)
+├── docs/
+│   ├── quality_tools.md  # how the quality checks work
+│   └── sources.json      # catalog of documents used for search
+├── data/                 # dataset, documents, Chroma index (ignored by Git)
+├── pyproject.toml
+└── uv.lock
 ```
 
 ## Usage
