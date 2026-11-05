@@ -5,6 +5,7 @@
     "answerable": true,
     "source_id": "cede_check_2024",
     "location": "p. 4",
+    "evidence": "sufficient detail for replication",
     "answer": "Enough detail to replicate the placement, with reference to guidelines, and how placement and orientation relative to the muscle fibres were ensured."
   },
   {
@@ -13,6 +14,7 @@
     "answerable": true,
     "source_id": "cede_check_2024",
     "location": "p. 4",
+    "evidence": "Positioning of reference electrode",
     "answer": "Yes, the positioning of the reference electrode(s) should be reported."
   },
   {
@@ -21,6 +23,7 @@
     "answerable": true,
     "source_id": "cede_check_2024",
     "location": "p. 4",
+    "evidence": "multiple sessions",
     "answer": "The methods used to keep electrode placement consistent across sessions."
   },
   {
@@ -29,6 +32,7 @@
     "answerable": true,
     "source_id": "cede_check_2024",
     "location": "p. 4",
+    "evidence": "Interelectrode distance",
     "answer": "Report the distance and say whether it is measured centre to centre or edge to edge."
   },
   {
@@ -37,6 +41,7 @@
     "answerable": true,
     "source_id": "cede_check_2024",
     "location": "p. 4",
+    "evidence": "Physical configuration",
     "answer": "Physical configuration, size, material, shape and interelectrode distance (from the manufacturer if applicable)."
   },
   {
@@ -45,6 +50,7 @@
     "answerable": true,
     "source_id": "cede_check_2024",
     "location": "p. 4",
+    "evidence": "method of transmission",
     "answer": "The method of wireless transmission."
   },
   {
@@ -53,6 +59,7 @@
     "answerable": true,
     "source_id": "cede_check_2024",
     "location": "p. 4",
+    "evidence": "inherent delay",
     "answer": "Yes, any inherent delay of the recording system and how it was compensated for."
   },
   {
@@ -61,6 +68,7 @@
     "answerable": true,
     "source_id": "cede_check_2024",
     "location": "p. 3",
+    "evidence": "A total of 40 items",
     "answer": "40 items."
   },
   {
@@ -69,6 +77,7 @@
     "answerable": true,
     "source_id": "cede_check_2024",
     "location": "p. 3",
+    "evidence": "replied to the first-round questionnaire",
     "answer": "16 of the 17 experts (94%)."
   },
   {
@@ -77,6 +86,7 @@
     "answerable": true,
     "source_id": "cede_check_2024",
     "location": "p. 2",
+    "evidence": "Delphi process for consensus",
     "answer": "Three steps: an online survey to list and rate items, a draft checklist, and a Delphi consensus process."
   },
   {
@@ -85,6 +95,7 @@
     "answerable": true,
     "source_id": "cede_check_2024",
     "location": "p. 3",
+    "evidence": "Item 13 was slightly modified",
     "answer": "Item 13 was slightly modified and a Comments column was added."
   },
   {
@@ -93,6 +104,7 @@
     "answerable": true,
     "source_id": "quality_tools",
     "location": "Baseline drift",
+    "evidence": "at or below 10 Hz",
     "answer": "The fraction of total power at or below 10 Hz; above 20% is reported as drift."
   },
   {
@@ -101,6 +113,7 @@
     "answerable": true,
     "source_id": "quality_tools",
     "location": "Clipping (amplifier saturation)",
+    "evidence": "reported as clipped",
     "answer": "When more than 1% of samples are within 0.1% of the signal range from the channel's maximum or minimum."
   },
   {
@@ -109,6 +122,7 @@
     "answerable": true,
     "source_id": "quality_tools",
     "location": "Flat channel",
+    "evidence": "below 1e-6",
     "answer": "With the channel's standard deviation; below 1e-6 it is reported as flat."
   },
   {
@@ -117,6 +131,7 @@
     "answerable": true,
     "source_id": "quality_tools",
     "location": "Power-line noise (50 or 60 Hz)",
+    "evidence": "within 2 Hz of the line frequency",
     "answer": "The fraction of total power within 2 Hz of the line frequency (Welch spectrum); above 10% is reported."
   },
   {
@@ -125,6 +140,7 @@
     "answerable": true,
     "source_id": "quality_tools",
     "location": "Signal-to-noise ratio (SNR)",
+    "evidence": "90th percentile",
     "answer": "RMS in 100 ms windows; 90th percentile as activity and 10th percentile as noise, in dB; below 10 dB is low."
   },
   {
@@ -133,6 +149,7 @@
     "answerable": true,
     "source_id": "quality_tools",
     "location": "Signal-to-noise ratio (SNR)",
+    "evidence": "not very active during the task",
     "answer": "No, it can also mean the muscle was not very active during the task."
   },
   {
@@ -141,6 +158,7 @@
     "answerable": true,
     "source_id": "quality_tools",
     "location": "EMG Physical Action dataset: findings",
+    "evidence": "Sampling rate: 1000 Hz",
     "answer": "1000 Hz; the UK 50 Hz power-line peak appears at exactly 50 Hz only at 1000 Hz, and a published paper reports 1 kHz."
   },
   {
@@ -149,6 +167,7 @@
     "answerable": true,
     "source_id": "quality_tools",
     "location": "EMG Physical Action dataset: findings",
+    "evidence": "11-43%",
     "answer": "All 8 channels had line noise, with 11-43% of power near 50 Hz."
   },
   {
@@ -157,6 +176,7 @@
     "answerable": true,
     "source_id": "dataset_readme",
     "location": "full text",
+    "evidence": "Three male and one female",
     "answer": "Four: three male and one female, aged 25 to 30."
   },
   {
@@ -165,6 +185,7 @@
     "answerable": true,
     "source_id": "dataset_readme",
     "location": "full text",
+    "evidence": "biceps and triceps",
     "answer": "Biceps, triceps, thigh and hamstring on both sides (8 channels)."
   },
   {
@@ -173,6 +194,7 @@
     "answerable": true,
     "source_id": "dataset_readme",
     "location": "full text",
+    "evidence": "L-Tri",
     "answer": "Column 3 (channel 4, L-Tri)."
   },
   {
@@ -181,6 +203,7 @@
     "answerable": true,
     "source_id": "dataset_readme",
     "location": "full text",
+    "evidence": "Aggressive: Elbowing",
     "answer": "Elbowing, frontkicking, hammering, headering, kneeing, pulling, punching, pushing, sidekicking and slapping."
   },
   {
@@ -189,6 +212,7 @@
     "answerable": true,
     "source_id": "dataset_readme",
     "location": "full text",
+    "evidence": "have not been filtered",
     "answer": "Subject 2's data was not filtered."
   },
   {
@@ -197,6 +221,7 @@
     "answerable": true,
     "source_id": "dataset_readme",
     "location": "full text",
+    "evidence": "Essex robotic arena",
     "answer": "In the Essex robotic arena at the University of Essex, UK."
   },
   {
@@ -205,6 +230,7 @@
     "answerable": false,
     "source_id": null,
     "location": null,
+    "evidence": null,
     "answer": null
   },
   {
@@ -213,6 +239,7 @@
     "answerable": false,
     "source_id": null,
     "location": null,
+    "evidence": null,
     "answer": null
   },
   {
@@ -221,6 +248,7 @@
     "answerable": false,
     "source_id": null,
     "location": null,
+    "evidence": null,
     "answer": null
   },
   {
@@ -229,6 +257,7 @@
     "answerable": false,
     "source_id": null,
     "location": null,
+    "evidence": null,
     "answer": null
   },
   {
@@ -237,6 +266,7 @@
     "answerable": false,
     "source_id": null,
     "location": null,
+    "evidence": null,
     "answer": null
   }
 ]

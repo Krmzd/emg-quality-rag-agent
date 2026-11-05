@@ -1,6 +1,9 @@
 import json
 from emg_agent.vector_store import search
 
+def norm(text):
+    return " ".join(text.split()).lower()
+
 with open("eval/questions.json") as f:
     questions = json.load(f)
 
@@ -14,7 +17,7 @@ for q in answerable:
 
     found = False
     for r in results:
-        if r["source_id"] == q["source_id"] and r["location"] == q["location"]:
+        if norm(q["evidence"]) in norm(r["text"]):
             found = True
 
     if found:
