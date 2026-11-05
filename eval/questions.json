@@ -1,0 +1,242 @@
+[
+  {
+    "id": "c01",
+    "question": "What should be reported about electrode placement?",
+    "answerable": true,
+    "source_id": "cede_check_2024",
+    "location": "p. 4",
+    "answer": "Enough detail to replicate the placement, with reference to guidelines, and how placement and orientation relative to the muscle fibres were ensured."
+  },
+  {
+    "id": "c02",
+    "question": "Should the position of the reference electrode be reported?",
+    "answerable": true,
+    "source_id": "cede_check_2024",
+    "location": "p. 4",
+    "answer": "Yes, the positioning of the reference electrode(s) should be reported."
+  },
+  {
+    "id": "c03",
+    "question": "What should be reported when EMG is recorded in several sessions from the same muscle?",
+    "answerable": true,
+    "source_id": "cede_check_2024",
+    "location": "p. 4",
+    "answer": "The methods used to keep electrode placement consistent across sessions."
+  },
+  {
+    "id": "c04",
+    "question": "How should the interelectrode distance be reported?",
+    "answerable": true,
+    "source_id": "cede_check_2024",
+    "location": "p. 4",
+    "answer": "Report the distance and say whether it is measured centre to centre or edge to edge."
+  },
+  {
+    "id": "c05",
+    "question": "Which characteristics of surface electrodes should be reported?",
+    "answerable": true,
+    "source_id": "cede_check_2024",
+    "location": "p. 4",
+    "answer": "Physical configuration, size, material, shape and interelectrode distance (from the manufacturer if applicable)."
+  },
+  {
+    "id": "c06",
+    "question": "What should be reported if a wireless EMG system is used?",
+    "answerable": true,
+    "source_id": "cede_check_2024",
+    "location": "p. 4",
+    "answer": "The method of wireless transmission."
+  },
+  {
+    "id": "c07",
+    "question": "Should delays introduced by the recording system be reported?",
+    "answerable": true,
+    "source_id": "cede_check_2024",
+    "location": "p. 4",
+    "answer": "Yes, any inherent delay of the recording system and how it was compensated for."
+  },
+  {
+    "id": "c08",
+    "question": "How many items does the final CEDE-Check checklist contain?",
+    "answerable": true,
+    "source_id": "cede_check_2024",
+    "location": "p. 3",
+    "answer": "40 items."
+  },
+  {
+    "id": "c09",
+    "question": "How many experts answered the first round of the Delphi questionnaire?",
+    "answerable": true,
+    "source_id": "cede_check_2024",
+    "location": "p. 3",
+    "answer": "16 of the 17 experts (94%)."
+  },
+  {
+    "id": "c10",
+    "question": "What process was used to develop the CEDE-Check checklist?",
+    "answerable": true,
+    "source_id": "cede_check_2024",
+    "location": "p. 2",
+    "answer": "Three steps: an online survey to list and rate items, a draft checklist, and a Delphi consensus process."
+  },
+  {
+    "id": "c11",
+    "question": "What changed in the checklist after the pilot test?",
+    "answerable": true,
+    "source_id": "cede_check_2024",
+    "location": "p. 3",
+    "answer": "Item 13 was slightly modified and a Comments column was added."
+  },
+  {
+    "id": "q01",
+    "question": "How is baseline drift measured by the quality checks?",
+    "answerable": true,
+    "source_id": "quality_tools",
+    "location": "Baseline drift",
+    "answer": "The fraction of total power at or below 10 Hz; above 20% is reported as drift."
+  },
+  {
+    "id": "q02",
+    "question": "When is a channel reported as clipped?",
+    "answerable": true,
+    "source_id": "quality_tools",
+    "location": "Clipping (amplifier saturation)",
+    "answer": "When more than 1% of samples are within 0.1% of the signal range from the channel's maximum or minimum."
+  },
+  {
+    "id": "q03",
+    "question": "How does the project detect a flat channel?",
+    "answerable": true,
+    "source_id": "quality_tools",
+    "location": "Flat channel",
+    "answer": "With the channel's standard deviation; below 1e-6 it is reported as flat."
+  },
+  {
+    "id": "q04",
+    "question": "How is power-line noise measured?",
+    "answerable": true,
+    "source_id": "quality_tools",
+    "location": "Power-line noise (50 or 60 Hz)",
+    "answer": "The fraction of total power within 2 Hz of the line frequency (Welch spectrum); above 10% is reported."
+  },
+  {
+    "id": "q05",
+    "question": "How is the signal-to-noise ratio estimated?",
+    "answerable": true,
+    "source_id": "quality_tools",
+    "location": "Signal-to-noise ratio (SNR)",
+    "answer": "RMS in 100 ms windows; 90th percentile as activity and 10th percentile as noise, in dB; below 10 dB is low."
+  },
+  {
+    "id": "q06",
+    "question": "Does a low SNR always mean the recording is bad?",
+    "answerable": true,
+    "source_id": "quality_tools",
+    "location": "Signal-to-noise ratio (SNR)",
+    "answer": "No, it can also mean the muscle was not very active during the task."
+  },
+  {
+    "id": "q07",
+    "question": "What is the sampling rate of the EMG Physical Action dataset and how was it verified?",
+    "answerable": true,
+    "source_id": "quality_tools",
+    "location": "EMG Physical Action dataset: findings",
+    "answer": "1000 Hz; the UK 50 Hz power-line peak appears at exactly 50 Hz only at 1000 Hz, and a published paper reports 1 kHz."
+  },
+  {
+    "id": "q08",
+    "question": "How much power-line noise was found in subject 2 during Standing?",
+    "answerable": true,
+    "source_id": "quality_tools",
+    "location": "EMG Physical Action dataset: findings",
+    "answer": "All 8 channels had line noise, with 11-43% of power near 50 Hz."
+  },
+  {
+    "id": "r01",
+    "question": "How many subjects are in the EMG Physical Action dataset?",
+    "answerable": true,
+    "source_id": "dataset_readme",
+    "location": "full text",
+    "answer": "Four: three male and one female, aged 25 to 30."
+  },
+  {
+    "id": "r02",
+    "question": "Which muscles were recorded in the EMG Physical Action dataset?",
+    "answerable": true,
+    "source_id": "dataset_readme",
+    "location": "full text",
+    "answer": "Biceps, triceps, thigh and hamstring on both sides (8 channels)."
+  },
+  {
+    "id": "r03",
+    "question": "Which column contains the left triceps?",
+    "answerable": true,
+    "source_id": "dataset_readme",
+    "location": "full text",
+    "answer": "Column 3 (channel 4, L-Tri)."
+  },
+  {
+    "id": "r04",
+    "question": "What are the aggressive actions in the dataset?",
+    "answerable": true,
+    "source_id": "dataset_readme",
+    "location": "full text",
+    "answer": "Elbowing, frontkicking, hammering, headering, kneeing, pulling, punching, pushing, sidekicking and slapping."
+  },
+  {
+    "id": "r05",
+    "question": "Why is subject 2 noisier than the other subjects?",
+    "answerable": true,
+    "source_id": "dataset_readme",
+    "location": "full text",
+    "answer": "Subject 2's data was not filtered."
+  },
+  {
+    "id": "r06",
+    "question": "Where were the recordings made?",
+    "answerable": true,
+    "source_id": "dataset_readme",
+    "location": "full text",
+    "answer": "In the Essex robotic arena at the University of Essex, UK."
+  },
+  {
+    "id": "n01",
+    "question": "What is the best EMG amplifier to buy?",
+    "answerable": false,
+    "source_id": null,
+    "location": null,
+    "answer": null
+  },
+  {
+    "id": "n02",
+    "question": "How can I diagnose ALS from a patient's EMG?",
+    "answerable": false,
+    "source_id": null,
+    "location": null,
+    "answer": null
+  },
+  {
+    "id": "n03",
+    "question": "How much does a Delsys EMG system cost?",
+    "answerable": false,
+    "source_id": null,
+    "location": null,
+    "answer": null
+  },
+  {
+    "id": "n04",
+    "question": "What is the capital of France?",
+    "answerable": false,
+    "source_id": null,
+    "location": null,
+    "answer": null
+  },
+  {
+    "id": "n05",
+    "question": "What machine learning model gives the best accuracy on this dataset?",
+    "answerable": false,
+    "source_id": null,
+    "location": null,
+    "answer": null
+  }
+]
