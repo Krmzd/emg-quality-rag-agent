@@ -27,6 +27,29 @@ those pieces**, citing each one by number.
 question → search (Chroma) → 5 closest chunks → gpt-5-mini → answer with [1], [2] + source list
 ```
 
+## Evaluation (baseline)
+
+A 30-question test set (`eval/questions.json`): 25 questions answerable
+from the documents, each with the expected source and a short evidence
+phrase, and 5 questions the documents cannot answer.
+
+| Metric | Result |
+|---|---|
+| Retrieval hit rate@5 (a top-5 chunk contains the evidence phrase) | 84% (21/25) |
+| Answers judged correct (expert review) | 84% (21/25); 92% correct or partial |
+| Refusals on unanswerable questions | 100% (5/5) |
+| Invalid citation numbers | 0 in the final run |
+
+Both wrong answers were refusals caused by retrieval misses: the model
+said the sources did not answer the question instead of guessing.
+
+Run it:
+
+```bash
+python scripts/eval_retrieval.py
+python scripts/eval_answer.py
+```
+
 - **Documents:** the dataset readme, the CEDE-Check reporting checklist,
   and `docs/quality_tools.md` (listed in `docs/sources.json`).
 - **Chunking:** PDF by page, Markdown by section, then whole sentences
