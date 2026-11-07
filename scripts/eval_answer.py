@@ -1,3 +1,4 @@
+import sys
 import json
 import re
 
@@ -8,9 +9,14 @@ REFUSAL = "The available sources do not answer this question."
 with open("eval/questions.json") as f:
     questions = json.load(f)
 
+experiment = sys.argv[1]
+print("Experiment:", experiment)
+
 sample = questions
 ok_count = 0
 results = []
+failed = []
+bad_citations = []
 
 for q in sample:
     result = answer_question(q["question"])
@@ -31,6 +37,10 @@ for q in sample:
         ok = cited and not refused
     else:
         ok = refused
+    if not ok:
+        failed.append(q["id"])
+    if not valid_citations:
+        bad_citations.append(q["id"])
 
     print("✅" if ok else "❌", q["id"], q["question"])
     print("   refused:", refused, "| cited:", cited, "| valid citations:", valid_citations)
@@ -44,5 +54,18 @@ for q in sample:
 
 print(f"Passed: {ok_count} / {len(sample)}")
 
-with open("data/eval_answers.json", "w") as f:
+with open(f"data/{experiment}_answer.json", "w") as f:
     json.dump(results, f, indent=2, ensure_ascii=False)
+
+summary = {
+    "experiment": experiment,
+    "passed": ok_count,
+    "total": len(results),
+    "failed": failed,
+    "bad_citations": bad_citations,
+}
+
+with open(f"eval/results/{experiment}_answers.json", "w") as f:
+    json.dump(summary, f, indent=2)
+
+print("Saved to", f"eval/results/{experiment}_answers.json")
