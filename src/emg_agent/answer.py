@@ -1,4 +1,4 @@
-from emg_agent.vector_store import search
+from emg_agent.hybrid import hybrid_search
 from emg_agent.llm import CHAT_DEPLOYMENT, get_client
 
 SYSTEM_PROMPT = """You are an assistant for EMG researchers.
@@ -31,7 +31,7 @@ def answer_question(question, k=5):
             answer: the text written by the model, with [1], [2] citations.
             sources: the hits that were numbered [1], [2], ...
     """
-    hits = search(question, k=k)                
+    hits = hybrid_search(question, k=k)                
     sources_text = format_sources(hits)          
 
     client = get_client()

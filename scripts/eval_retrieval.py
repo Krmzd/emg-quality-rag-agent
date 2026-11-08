@@ -1,6 +1,6 @@
 import sys
 import json
-from emg_agent.vector_store import search
+from emg_agent.hybrid import hybrid_search
 
 def norm(text):
     return " ".join(text.split()).lower()
@@ -19,7 +19,7 @@ print(len(answerable), "answerable questions")
 hits_count = 0
 
 for q in answerable:
-    results = search(q["question"], k=5)
+    results = hybrid_search(q["question"], k=5)
 
     found = False
     for r in results:
