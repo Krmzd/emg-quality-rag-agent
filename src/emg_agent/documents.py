@@ -90,6 +90,30 @@ def load_text(path):
         text = f.read().strip()
     return [{"section": "full text", "text": text}]
 
+def load_numbered_text(path):
+    with open(path, encoding="utf-8", errors="replace") as f:
+        lines = f.read().splitlines()
+
+    sections = []
+    heading = None
+    current = []
+
+    for line in lines:
+        stripped = line.strip()
+        if stripped and stripped[0].isdigit():
+            if heading is not None:
+                sections.append({"section": heading, "text": "\n".join(current).strip()})
+            heading = stripped
+            current = [stripped]
+        else:
+            current.append(line)
+
+    if heading is not None:
+        sections.append({"section": heading, "text": "\n".join(current).strip()})
+
+    return sections
+
+
 def load_documents(sources_path="docs/sources.json"):
     """
     Load every document listed in sources.json.
@@ -109,13 +133,13 @@ def load_documents(sources_path="docs/sources.json"):
 
         if path.endswith(".pdf"):
             for p in load_pdf(path):
-                passages.append({"source_id": source["id"], "location": f"p. {p['page']}", "text": p["text"]})
+                passages.append({"source_id": source["id"], "title": source["title"], "location": f"p. {p['page']}", "text": p["text"]})
         elif path.endswith(".md"):
             for s in load_markdown(path):
-                passages.append({"source_id": source["id"], "location": s["section"], "text": s["text"]})
+                passages.append({"source_id": source["id"], "title": source["title"], "location": s["section"], "text": s["text"]})
         else:
-            for s in load_text(path):
-                passages.append({"source_id": source["id"], "location": s["section"], "text": s["text"]})
+            for s in load_numbered_text(path):
+                passages.append({"source_id": source["id"], "title": source["title"], "location": s["section"], "text": s["text"]})
 
     return passages
 
@@ -193,7 +217,7 @@ def make_chunks(passages, max_chars=1000, overlap_sentences=1):
         A list of dictionaries, each with:
             chunk_id: a unique id, e.g. "cede_check_2024:p. 3:0".
             source_id, location: copied from the passage.
-            text: the chunk text.
+            text: the title and location, then the chunk text.
     """
     chunks = []
     for p in passages:
@@ -203,7 +227,7 @@ def make_chunks(passages, max_chars=1000, overlap_sentences=1):
                     "chunk_id": f"{p['source_id']}:{p['location']}:{i}",
                     "source_id": p["source_id"],
                     "location": p["location"],
-                    "text": text,
+                    "text": f"{p['title']} | {p['location']}\n{text}",
                 }
             )
     return chunks

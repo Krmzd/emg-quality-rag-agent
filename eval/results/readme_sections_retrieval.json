@@ -1,0 +1,11 @@
+{
+  "experiment": "readme_sections",
+  "hits": 22,
+  "total": 25,
+  "hit_rate": 0.88,
+  "missed": [
+    "c03",
+    "c08",
+    "r01"
+  ]
+}

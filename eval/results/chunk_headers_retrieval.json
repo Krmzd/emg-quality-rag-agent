@@ -1,0 +1,9 @@
+{
+  "experiment": "chunk_headers",
+  "hits": 24,
+  "total": 25,
+  "hit_rate": 0.96,
+  "missed": [
+    "r01"
+  ]
+}
