@@ -1,0 +1,92 @@
+[
+  {
+    "id": "h01",
+    "question": "Which EMG recording system was used to collect the Physical Action dataset?",
+    "answerable": true,
+    "source_id": "dataset_readme",
+    "location": "3.2 Instrumentation:",
+    "evidence": "Delsys EMG apparatus",
+    "answer": "A Delsys EMG system, with eight skin-surface electrodes."
+  },
+  {
+    "id": "h02",
+    "question": "What did the participants strike during the aggressive actions?",
+    "answerable": true,
+    "source_id": "dataset_readme",
+    "location": "3.2 Instrumentation:",
+    "evidence": "kick-boxing standing bag",
+    "answer": "A professional kick-boxing standing bag, 1.75 m tall, with a human figure drawn on it."
+  },
+  {
+    "id": "h03",
+    "question": "Roughly how long is each recording, in samples?",
+    "answerable": true,
+    "source_id": "dataset_readme",
+    "location": "3.3 Data Setup:",
+    "evidence": "~10000 samples",
+    "answer": "About 10,000 samples per channel (about 15 actions per session)."
+  },
+  {
+    "id": "h04",
+    "question": "Which non-aggressive activities did the participants perform?",
+    "answerable": true,
+    "source_id": "dataset_readme",
+    "location": "7. Number of Classes: 20",
+    "evidence": "Normal: Bowing",
+    "answer": "Ten normal actions: bowing, clapping, handshaking, hugging, jumping, running, seating, standing, walking and waving."
+  },
+  {
+    "id": "h05",
+    "question": "Who created the dataset, and when was it donated?",
+    "answerable": true,
+    "source_id": "dataset_readme",
+    "location": "2. Sources:",
+    "evidence": "Original owner: Theo Theodoridis",
+    "answer": "Theo Theodoridis, University of Essex; dated 28/07/11."
+  },
+  {
+    "id": "h06",
+    "question": "What should a study report about the sampling rate of the EMG signal?",
+    "answerable": true,
+    "source_id": "cede_check_2024",
+    "location": "p. 4",
+    "evidence": "Sampling frequency (Hertz or samples/s)",
+    "answer": "The sampling frequency in Hz (samples/s); if set by the manufacturer, report it from the manufacturer's information."
+  },
+  {
+    "id": "h07",
+    "question": "What details about filtering the EMG signal should be reported?",
+    "answerable": true,
+    "source_id": "cede_check_2024",
+    "location": "p. 4",
+    "evidence": "cut-off frequencies of hardware filter",
+    "answer": "The cut-off frequencies of the hardware filter (and if possible filter type and order), and the technique used to remove power-line interference, such as a notch filter, with its features."
+  },
+  {
+    "id": "h08",
+    "question": "Should the method for normalising EMG amplitude be reported?",
+    "answerable": true,
+    "source_id": "cede_check_2024",
+    "location": "p. 4",
+    "evidence": "Description of task(s) performed for amplitude normalisation",
+    "answer": "Yes: describe the task(s) used for amplitude normalisation (e.g. for MVC, the instructions and how it was assessed and calculated), referring to the CEDE amplitude normalisation matrix."
+  },
+  {
+    "id": "h09",
+    "question": "What is the typical EMG amplitude of the biceps during a maximal contraction?",
+    "answerable": false,
+    "source_id": null,
+    "location": null,
+    "evidence": null,
+    "answer": null
+  },
+  {
+    "id": "h10",
+    "question": "Which electrode gel gives the lowest skin impedance?",
+    "answerable": false,
+    "source_id": null,
+    "location": null,
+    "evidence": null,
+    "answer": null
+  }
+]
