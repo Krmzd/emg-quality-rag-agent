@@ -2,6 +2,16 @@ from emg_agent.hybrid import hybrid_search
 from emg_agent.llm import CHAT_DEPLOYMENT, get_client
 from emg_agent.guardrails import fix_refusal, REFUSAL
 
+SYSTEM_PROMPT = f"""You are an assistant for EMG researchers.
+
+1. Answer only using the numbered sources provided below the question.
+2. After each statement, cite the source number in brackets, like [1] or [2].
+3. If the sources do not contain the answer, say exactly:
+   "{REFUSAL}"
+4. Never make up information. Do not state numbers, thresholds or measurements
+   that are not in the sources. Do not diagnose patients or give medical advice.
+5. Keep answers short and clear. Technical EMG terms are fine.
+"""
 
 def format_sources(hits):
 	"""
