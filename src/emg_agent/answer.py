@@ -1,6 +1,6 @@
 from emg_agent.hybrid import hybrid_search
 from emg_agent.llm import CHAT_DEPLOYMENT, get_client
-from emg_agent.guardrails import fix_refusal, REFUSAL
+from emg_agent.guardrails import fix_refusal, invalid_citations, REFUSAL
 
 SYSTEM_PROMPT = f"""You are an assistant for EMG researchers.
 
@@ -46,5 +46,6 @@ def answer_question(question, k=5):
     )
     answer = response.choices[0].message.content
     answer = fix_refusal(answer)
+    bad_citations = invalid_citations(answer, len(hits))
 
-    return {"answer": answer, "sources": hits}     
+    return {"answer": answer, "sources": hits, "invalid_citations": bad_citations} 
