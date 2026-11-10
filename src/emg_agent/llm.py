@@ -1,6 +1,6 @@
 import os
-
 from openai import OpenAI
+from langchain_openai import ChatOpenAI
 
 EMBEDDING_DEPLOYMENT = "text-embedding-3-small"
 CHAT_DEPLOYMENT = "gpt-5-mini-1"
@@ -15,6 +15,14 @@ def get_client():
     api_key = os.environ["AZURE_OPENAI_API_KEY"].strip()
     return OpenAI(base_url=endpoint.rstrip("/") + "/openai/v1/", api_key=api_key)
 
+def get_chat_model():
+    endpoint = os.environ["AZURE_OPENAI_ENDPOINT"].strip()
+    api_key = os.environ["AZURE_OPENAI_API_KEY"].strip()
+    return ChatOpenAI(
+        model=CHAT_DEPLOYMENT,
+        base_url=endpoint.rstrip("/") + "/openai/v1/",
+        api_key=api_key,
+    )
 
 def embed_texts(texts):
     """
