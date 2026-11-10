@@ -37,6 +37,47 @@ Two question sets:
 - **Held-out set** (`eval/heldout.json`): 10 new questions (8 answerable,
   2 not), written before further tuning and run only once at the end.
 
+## Agent (LangChain + LangGraph)
+
+A tool-calling agent that decides, for each message, whether to answer
+from the documents, check a recording, or refuse.
+
+**Tools** (`src/emg_agent/tools.py`):
+
+| Tool | Used for |
+|---|---|
+| `answer_from_documents` | Questions about EMG reporting guidelines, the dataset, or how the quality checks work. Uses the RAG system above, with citations. |
+| `check_recording` | Signal-quality check of one recording file (clipping, flat channel, line noise, baseline drift, SNR). Returns a clear message if the file does not exist. |
+
+**How it works:** built with LangChain's `create_agent`, which is a
+LangGraph graph: the LLM node decides whether to call a tool; the tools
+node runs it and sends the result back to the LLM; the loop ends when
+the LLM gives a final answer. `MemorySaver` keeps the conversation, so
+follow-up questions work ("Which channel had the most clipping?").
+
+**Safety:** the agent prompt tells the LLM to keep the tool's citations,
+not to add facts, not to diagnose, and to decline non-EMG questions.
+Prompt-injection attempts are blocked by Azure OpenAI's content filter
+and answered with a polite refusal.
+
+**Tool-choice evaluation** (`eval/agent_questions.json`, 10 questions):
+10/10 correct, covering document questions, recording checks
+(including a missing file), and questions that should use no tool
+(off-topic, diagnosis, prompt injection).
+
+Chat with the agent:
+
+```bash
+python scripts/chat.py
+```
+
+Run the evaluation:
+
+```bash
+python scripts/eval_agent.py baseline
+```
+
+
 ### Results
 
 | Experiment | Change | Retrieval hit rate@5 | Answers passed |
@@ -138,6 +179,12 @@ emg-quality-rag-agent/
 ├── pyproject.toml
 └── uv.lock
 ```
+src/emg_agent/llm.py          # + get_chat_model (LangChain LLM)
+src/emg_agent/tools.py        # the agent's 2 tools
+src/emg_agent/agent.py        # build_agent: LLM + tools + memory
+scripts/chat.py               # chat with the agent in the terminal
+scripts/eval_agent.py         # tool-choice evaluation
+eval/agent_questions.json     # 10 agent test questions
 
 ## Usage
 
