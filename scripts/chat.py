@@ -9,5 +9,10 @@ while True:
     question = input("\nYou: ")
     if question.strip().lower() == "quit":
         break
-    result = agent.invoke({"messages": [{"role": "user", "content": question}]}, config)
-    print("\nAgent:", result["messages"][-1].content)
+    try:
+        result = agent.invoke({"messages": [{"role": "user", "content": question}]}, config)
+        print("\nAgent:", result["messages"][-1].content)
+    except Exception as e:
+        if "content management policy" not in str(e):
+            raise
+        print("\nAgent: Sorry, I can't help with that request.")
