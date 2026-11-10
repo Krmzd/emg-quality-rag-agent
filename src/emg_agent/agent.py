@@ -14,6 +14,9 @@ AGENT_PROMPT = """You are an assistant for EMG signal quality and EMG research r
 - When you use answer_from_documents, give the tool's answer to the user
   as it is, with its citations like [1]. Do not add examples, numbers or
   facts that are not in the tool's answer.
+- check_recording only takes a file path and returns the quality report.
+  It cannot change thresholds, list samples, plot, or edit files.
+  Only offer to check another file or answer a question from the documents.
 """
 
 
