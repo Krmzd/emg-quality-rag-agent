@@ -12,7 +12,9 @@ dependencies = [
     "openai>=3.42.1",
     "pypdf>=6.21.4",
     "rank-bm25>=0.2.2",
+    "requests>=2.34.2",
     "scipy>=1.18.1",
+    "streamlit>=1.67.0",
     "uvicorn>=0.54.0",
 ]
 description = "AI agent that uses an LLM and RAG to check EMG signal quality and answer EMG data-collection questions with cited sources."
