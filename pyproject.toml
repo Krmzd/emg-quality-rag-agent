@@ -4,6 +4,7 @@ version = "0.1.0"
 requires-python = ">=3.12"
 dependencies = [
     "chromadb>=1.5.9",
+    "fastapi>=0.162.4",
     "langchain>=1.4.9",
     "langchain-openai>=1.7.4",
     "langgraph>=1.2.20",
@@ -12,6 +13,7 @@ dependencies = [
     "pypdf>=6.21.4",
     "rank-bm25>=0.2.2",
     "scipy>=1.18.1",
+    "uvicorn>=0.54.0",
 ]
 description = "AI agent that uses an LLM and RAG to check EMG signal quality and answer EMG data-collection questions with cited sources."
 
