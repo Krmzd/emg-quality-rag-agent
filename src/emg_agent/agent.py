@@ -2,6 +2,7 @@ from langgraph.checkpoint.memory import MemorySaver
 from langchain.agents import create_agent
 from emg_agent.llm import get_chat_model
 from emg_agent.tools import answer_from_documents, check_recording
+import mlflow
 
 AGENT_PROMPT = """You are an assistant for EMG signal quality and EMG research reporting.
 
@@ -21,6 +22,9 @@ AGENT_PROMPT = """You are an assistant for EMG signal quality and EMG research r
 
 
 def build_agent():
+    mlflow.set_tracking_uri("sqlite:///data/mlflow.db")
+    mlflow.set_experiment("emg-agent")
+    mlflow.langchain.autolog()
     llm = get_chat_model()
     tools = [answer_from_documents, check_recording]
     memory = MemorySaver()

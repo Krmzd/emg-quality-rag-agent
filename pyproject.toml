@@ -8,6 +8,7 @@ dependencies = [
     "langchain>=1.4.9",
     "langchain-openai>=1.7.4",
     "langgraph>=1.2.20",
+    "mlflow>=3.18.0",
     "numpy>=2.5.4",
     "openai>=3.42.1",
     "pypdf>=6.21.4",
