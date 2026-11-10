@@ -27,37 +27,61 @@ those pieces**, citing each one by number.
 question → search (Chroma) → 5 closest chunks → gpt-5-mini → answer with [1], [2] + source list
 ```
 
-## Evaluation (baseline)
+## Evaluation
 
-A 30-question test set (`eval/questions.json`): 25 questions answerable
-from the documents, each with the expected source and a short evidence
-phrase, and 5 questions the documents cannot answer.
+Two question sets:
 
-| Metric | Result |
-|---|---|
-| Retrieval hit rate@5 (a top-5 chunk contains the evidence phrase) | 84% (21/25) |
-| Answers judged correct (expert review) | 84% (21/25); 92% correct or partial |
-| Refusals on unanswerable questions | 100% (5/5) |
-| Invalid citation numbers | 0 in the final run |
+- **Dev set** (`eval/questions.json`): 30 questions, 25 answerable from the
+  documents (each with an expected source and a short evidence phrase) and
+  5 the documents cannot answer. Used to find failures and choose changes.
+- **Held-out set** (`eval/heldout.json`): 10 new questions (8 answerable,
+  2 not), written before further tuning and run only once at the end.
 
-Both wrong answers were refusals caused by retrieval misses: the model
-said the sources did not answer the question instead of guessing.
+### Results
 
-Run it:
+| Experiment | Change | Retrieval hit rate@5 | Answers passed |
+|---|---|---|---|
+| baseline | vector search, 1,000-character chunks | 84% (21/25) | 28/30 |
+| readme_sections | split the readme at its numbered headings | 88% (22/25) | – |
+| chunk_headers | add "document title \| section" to the start of each chunk | 96% (24/25) | 29/30 |
+| hybrid_bm25 | combine vector search and BM25 keyword search (RRF) | 100% (25/25) | 30/30 |
+
+On the held-out set, both the baseline and the final system scored
+100% retrieval (8/8) and 10/10 answers. The changes caused no
+regressions on new questions, but this set was too small and easy to
+show the size of the improvement (a ceiling effect).
+
+- **Retrieval hit rate@5:** a top-5 chunk contains the evidence phrase.
+- **Answers passed:** answerable questions are answered with citations;
+  unanswerable ones are refused. This is an automatic check, not an expert
+  review of correctness. The baseline expert review found 21/25 answers
+  correct (92% correct or partial).
+
+Each run saves a summary to `eval/results/<experiment>_*.json`:
 
 ```bash
-python scripts/eval_retrieval.py
-python scripts/eval_answer.py
+python scripts/eval_retrieval.py hybrid_bm25
+python scripts/eval_answer.py hybrid_bm25
+python scripts/eval_retrieval.py final_heldout eval/heldout.json
 ```
+
+### How the system works
 
 - **Documents:** the dataset readme, the CEDE-Check reporting checklist,
   and `docs/quality_tools.md` (listed in `docs/sources.json`).
-- **Chunking:** PDF by page, Markdown by section, then whole sentences
-  grouped into chunks of up to 1,000 characters with one sentence of overlap.
+- **Chunking:** PDF by page, Markdown by section, the readme by its numbered
+  headings; then whole sentences grouped into chunks of up to 1,000
+  characters with one sentence of overlap. Each chunk starts with its
+  document title and section.
+- **Retrieval:** hybrid search. The top 20 from vector search (Chroma) and
+  the top 20 from BM25 keyword search are merged with Reciprocal Rank
+  Fusion, and the best 5 go to the model.
 - **Embeddings and answers:** Azure OpenAI (`text-embedding-3-small`, `gpt-5-mini`).
 - **Rules for the model:** answer only from the sources, cite every
   statement, say so when the sources don't answer, never invent numbers,
   never give medical advice.
+- **Output guardrails:** citations are removed from refusals, and
+  citation numbers that match no source are flagged.
 
 Example:
 
