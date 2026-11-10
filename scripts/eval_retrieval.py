@@ -5,7 +5,8 @@ from emg_agent.hybrid import hybrid_search
 def norm(text):
     return " ".join(text.split()).lower()
 
-with open("eval/questions.json") as f:
+questions_path = sys.argv[2] if len(sys.argv) > 2 else "eval/questions.json"
+with open(questions_path) as f:
     questions = json.load(f)
 
 experiment = sys.argv[1]

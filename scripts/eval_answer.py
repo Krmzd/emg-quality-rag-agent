@@ -6,7 +6,8 @@ from emg_agent.answer import answer_question
 
 REFUSAL = "The available sources do not answer this question."
 
-with open("eval/questions.json") as f:
+questions_path = sys.argv[2] if len(sys.argv) > 2 else "eval/questions.json"
+with open(questions_path) as f:
     questions = json.load(f)
 
 experiment = sys.argv[1]
