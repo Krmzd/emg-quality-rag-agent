@@ -18,6 +18,9 @@ def answer_from_documents(question: str) -> str:
 def check_recording(path: str) -> str:
     """Check the signal quality of one EMG recording file (a .txt file
     in data/raw). Returns the problems found in each channel."""
-    emg = load_recording(path)
+    try:
+        emg = load_recording(path)
+    except FileNotFoundError:
+        return f"File not found: {path}. Please check the path."
     report = check_quality(emg, fs=FS, line_freq=LINE_FREQ)
     return str(report)
