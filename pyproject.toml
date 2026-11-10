@@ -19,6 +19,7 @@ description = "AI agent that uses an LLM and RAG to check EMG signal quality and
 
 [dependency-groups]
 dev = [
+    "httpx>=0.28.1",
     "pytest>=9.2.0",
 ]
 [build-system]
