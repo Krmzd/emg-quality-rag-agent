@@ -77,6 +77,44 @@ Run the evaluation:
 python scripts/eval_agent.py baseline
 ```
 
+## Web app (FastAPI + Streamlit) and tracing (MLflow)
+
+```
+Browser → Streamlit page → POST /chat → FastAPI → agent (LLM + tools) → answer
+```
+
+**API** (`src/emg_agent/api.py`, FastAPI):
+
+| Endpoint | Method | Purpose |
+|---|---|---|
+| `/health` | GET | returns `{"status": "ok"}` when the app is running |
+| `/chat` | POST | `{"message": ..., "thread_id": ...}` → `{"answer": ...}`. The `thread_id` keeps each conversation's memory separate |
+
+Requests are validated with Pydantic. Prompt-injection attempts blocked by
+Azure's content filter return a polite refusal instead of an error.
+API tests (`tests/test_api.py`) use FastAPI's TestClient and a fake agent,
+so they run without Azure.
+
+**Chat page** (`ui/chat_app.py`, Streamlit): a chat box that sends each
+message to `/chat`. Each browser tab gets its own random `thread_id`, so
+conversations don't mix.
+
+**Tracing** (MLflow): `mlflow.langchain.autolog()` records every agent run
+(LLM calls, tool calls, time and tokens per step) in a local database,
+`data/mlflow.db`, which is not committed.
+
+Run (three terminals):
+
+```bash
+uvicorn emg_agent.api:app --reload                                  # API, port 8000 (/docs to test)
+streamlit run ui/chat_app.py                                        # chat page, port 8501
+mlflow ui --backend-store-uri sqlite:///data/mlflow.db --port 5000  # traces, port 5000
+```
+
+**Known limit:** conversation memory is kept in the API process
+(`MemorySaver`) and is lost when the API restarts. Persistent memory
+(Redis) is planned with Docker.
+
 
 ### Results
 
@@ -185,6 +223,9 @@ src/emg_agent/agent.py        # build_agent: LLM + tools + memory
 scripts/chat.py               # chat with the agent in the terminal
 scripts/eval_agent.py         # tool-choice evaluation
 eval/agent_questions.json     # 10 agent test questions
+src/emg_agent/api.py      # FastAPI: /health and /chat
+ui/chat_app.py            # Streamlit chat page
+tests/test_api.py         # API tests with a fake agent
 
 ## Usage
 
