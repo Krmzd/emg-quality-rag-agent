@@ -3,6 +3,9 @@ from langchain.agents import create_agent
 from emg_agent.llm import get_chat_model
 from emg_agent.tools import answer_from_documents, check_recording
 import mlflow
+import os
+from langgraph.checkpoint.redis import RedisSaver
+
 
 AGENT_PROMPT = """You are an assistant for EMG signal quality and EMG research reporting.
 
@@ -21,11 +24,21 @@ AGENT_PROMPT = """You are an assistant for EMG signal quality and EMG research r
 """
 
 
+def get_memory():
+    redis_url = os.environ.get("REDIS_URL")
+    if redis_url:
+        memory = RedisSaver(redis_url=redis_url)
+        memory.setup()
+        return memory
+    return MemorySaver()
+
+
 def build_agent():
     mlflow.set_tracking_uri("sqlite:///data/mlflow.db")
     mlflow.set_experiment("emg-agent")
     mlflow.langchain.autolog()
+
     llm = get_chat_model()
     tools = [answer_from_documents, check_recording]
-    memory = MemorySaver()
+    memory = get_memory()
     return create_agent(llm, tools, system_prompt=AGENT_PROMPT, checkpointer=memory)

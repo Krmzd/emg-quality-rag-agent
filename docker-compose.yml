@@ -1,12 +1,19 @@
 services:
+  redis:
+    image: redis/redis-stack-server:latest
+    network_mode: host
+
   api:
     build: .
     network_mode: host
     environment:
       - AZURE_OPENAI_ENDPOINT
       - AZURE_OPENAI_API_KEY
+      - REDIS_URL=redis://localhost:6379 
     volumes:
       - ./data:/app/data
+    depends_on:                     
+      - redis                             
 
   ui:
     build: .
