@@ -115,6 +115,38 @@ mlflow ui --backend-store-uri sqlite:///data/mlflow.db --port 5000  # traces, po
 (`MemorySaver`) and is lost when the API restarts. Persistent memory
 (Redis) is planned with Docker.
 
+## Docker, Redis and CI
+
+**Docker:** one image (`Dockerfile`) contains Python, the libraries and the
+code. Secrets are not in the image: they are passed when the container
+starts. The `data/` folder (documents, Chroma, recordings, MLflow) is
+mounted, not copied.
+
+**Docker Compose** (`docker-compose.yml`) starts three containers:
+
+| Container | Role |
+|---|---|
+| `redis` | stores the agent's conversation memory |
+| `api` | FastAPI + agent (port 8000) |
+| `ui` | Streamlit chat page (port 8501) |
+
+```bash
+docker compose up --build
+```
+
+**Persistent memory:** when `REDIS_URL` is set, the agent stores each
+conversation in Redis (LangGraph `RedisSaver`); otherwise it uses in-process
+memory. Tested by asking a question, restarting the API container, and
+asking a follow-up: the agent still remembered.
+
+**Note on Codespaces:** containers could not reach each other over Docker's
+bridge network in GitHub Codespaces, so the Compose file uses host
+networking. On a normal Docker host or in Kubernetes, services reach each
+other by name (for example `http://api:8000`).
+
+**CI** (`.github/workflows/tests.yml`): GitHub Actions runs `pytest` on
+every push to `main`. The tests use a fake agent and need no Azure
+secrets; the API builds the real agent on the first request.
 
 ### Results
 
