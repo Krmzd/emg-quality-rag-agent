@@ -4,7 +4,14 @@ from pydantic import BaseModel
 from emg_agent.agent import build_agent
 
 app = FastAPI(title="EMG Quality RAG Agent")
-agent = build_agent()
+agent = None
+
+
+def get_agent():
+    global agent
+    if agent is None:
+        agent = build_agent()
+    return agent
 
 
 class ChatRequest(BaseModel):
@@ -25,7 +32,7 @@ def health():
 def chat(request: ChatRequest) -> ChatResponse:
     config = {"configurable": {"thread_id": request.thread_id}}
     try:
-        result = agent.invoke({"messages": [{"role": "user", "content": request.message}]}, config)
+        result = get_agent().invoke({"messages": [{"role": "user", "content": request.message}]}, config)
         return ChatResponse(answer=result["messages"][-1].content)
     except Exception as e:
         if "content management policy" not in str(e):
